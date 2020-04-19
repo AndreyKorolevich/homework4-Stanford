@@ -4,7 +4,55 @@
 // See HW4 writeup for more hints and details.
 class MenuScreen {
   constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+    this.songs = document.getElementById('song-selector');
+    this.gif = document.getElementById('query-input');
+    this.containerElement = document.getElementById('menu');
+    this.nameSong = document.createElement('option');
+
+    this.getListSong();
+    this.getListTopics();
+
+    this.onSubmit = this.onSubmit.bind(this);
+    const form = document.querySelector('form');
+    form.addEventListener('submit', this.onSubmit);
   }
-  // TODO(you): Add methods as necessary.
+  
+  getListSong(){
+    fetch('https://yayinternet.github.io/hw4-music/songs.json')
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      for (const song in data) {
+        this.nameSong.text = data[song].title;
+        this.nameSong.value = data[song].title;
+        this.songs.appendChild(this.nameSong.cloneNode(true));
+      }
+    }); 
+  }
+
+  getListTopics() {
+    const topics = ['candy', 'charlie brown', 'computers', 'dance', 'donuts', 'hello kitty', 'flowers', 'nature', 'turtles', 'space'];
+    const topic = topics[Math.floor(Math.random() * 10)];
+    this.gif.value = topic;    
+  }
+
+  hide() {
+    this.containerElement.classList.add('inactive');
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    console.log(this.gif.value);
+    console.log(this.songs.value);
+    document.dispatchEvent(new CustomEvent('open-music-screen', {detail: this.gif.value}));
+  }
 }
+
+
+    
+
+
+ 
+
+

@@ -4,7 +4,16 @@
 // See HW4 writeup for more hints and details.
 class App {
   constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+    this.menu = new MenuScreen();
+    this.music = new MusicScreen();
+
+    this.showMusicScreen = this.showMusicScreen.bind(this);
+    document.addEventListener('open-music-screen', this.showMusicScreen);
   }
-  // TODO(you): Add methods as necessary.
+ 
+  showMusicScreen(event) {
+    this.menu.hide();
+    this.music.show();
+    this.music.showGif(event.detail);
+  }
 }
