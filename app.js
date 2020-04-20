@@ -13,7 +13,6 @@ class App {
  
   showMusicScreen(event) {
     this.menu.hide();
-    this.music.show();
-    this.music.showGif(event.detail);
+    this.music.show(event.detail);
   }
 }

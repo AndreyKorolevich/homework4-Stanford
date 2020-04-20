@@ -1,17 +1,17 @@
 class GifDisplay {
   constructor() {
-    this.gifPath = 'https://api.giphy.com/v1/gifs/translate?api_key=yCb3a2vGu9hxzySF74WnYQ9PgHS1ufbV&s=';
     this.onJsonReady = this.onJsonReady.bind(this);
     this.arrUrls = [];
     this.topic;
-    
   }
 
   viewGif(topic) {
     this.topic = topic;
-    const query = encodeURIComponent(this.topic);
+    this.query = encodeURIComponent(this.topic);
+    this.gifPath = `https://api.giphy.com/v1/gifs/search?api_key=yCb3a2vGu9hxzySF74WnYQ9PgHS1ufbV&q=${this.query}&limit=25&offset=0&rating=G&lang=en`;
+
     this.arrUrls = [];
-    fetch(this.gifPath + query)
+    fetch(this.gifPath)
       .then(this.onResponse)
       .then(this.onJsonReady);
   }
@@ -21,18 +21,18 @@ class GifDisplay {
   }
 
   onJsonReady(json) {
-     if (!json.data.images) {
+     if (!json.data) {
        return;
     }
-      const url = json.data.images.downsized.url;
+    for (let i = 0; i < json.data.length; i++) {
+      const url = json.data[i].images.downsized.url;
       this.arrUrls.push(url);
+    }
     this.renderGif();
  }
 
   renderGif() {
     const gifContainer = document.querySelector('#audio-player .gif');
-    console.log(this.arrUrls[0]);
-    gifContainer.style.backgroundImage = `url(${this.arrUrls[0]})`;
-    console.log(gifContainer);
+    gifContainer.style.backgroundImage = `url(${this.arrUrls[Math.floor(Math.random() * 25)]})`;
   }
 }

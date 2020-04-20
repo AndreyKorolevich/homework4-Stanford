@@ -1,18 +1,40 @@
 class MusicScreen {
   constructor() {
-    this.containerElement = document.getElementById('audio-player');
-    this.topic;
-    this.gifDisplay = new GifDisplay ();
-    this.audioPlayer = new AudioPlayer();
+    this.gifDisplay = new GifDisplay (); 
     this.playButton = new PlayButton();
+    this.audioPlayer;
+    this.containerElement = document.getElementById('audio-player');
+
+    this.showNewGif = this.showNewGif.bind(this);
+    this.audioPlay = this.audioPlay.bind(this);
+    this.audioPause = this.audioPause.bind(this);
+    document.addEventListener('show-new-gif', this.showNewGif);
+    document.addEventListener('audio-pause', this.audioPause);
+    document.addEventListener('audio-play', this.audioPlay);
   }
    
-  show(event) {
-    this.topic = event;
+  show(gifAndSong) {
+    this.audioPlayer = new AudioPlayer();
     this.containerElement.classList.remove('inactive');
+    this.gifDisplay.viewGif(gifAndSong.gif);
+    this.audioPlayer.setSong(gifAndSong.song);
+    this.audioPlayer.play();
+    this.audioPlayer.setKickCallback(this.kick);
   }
 
-  showGif(topic){
-    this.gifDisplay.viewGif(topic);
+  kick() {
+    document.dispatchEvent(new CustomEvent('show-new-gif'));
+  }
+
+  showNewGif() {
+    this.gifDisplay.renderGif();
+  }
+
+  audioPlay() {
+    this.audioPlayer.play();
+  }
+
+  audioPause() {
+    this.audioPlayer.pause();
   }
 }

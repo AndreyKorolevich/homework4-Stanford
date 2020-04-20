@@ -1,10 +1,19 @@
-// This class will represent the play button in the MusicScreen. Clicking on
-// it toggles audio playback.
-//
-// See HW4 writeup for more hints and details.
 class PlayButton {
   constructor() {
-    // TODO(you): Implement the constructor and add fields as necessary.
+    this.button = document.querySelector('.button');
+    this.playStop = this.playStop.bind(this);
+    this.button.addEventListener('click', this.playStop);
   }
-  // TODO(you): Add methods as necessary.
+
+  playStop() {
+    const srcPause = 'file:///D:/IT/Stedfort/hw4-music-box-AndreyKorolevich/images/pause.png'
+    const srcPlay = 'file:///D:/IT/Stedfort/hw4-music-box-AndreyKorolevich/images/play.png'
+    if (this.button.src === srcPause) {
+      this.button.src = srcPlay;
+      document.dispatchEvent(new CustomEvent('audio-play'));
+    } else if (this.button.src === srcPlay) {
+      this.button.src = srcPause;
+      document.dispatchEvent(new CustomEvent('audio-pause'));
+    }
+  }
 }
