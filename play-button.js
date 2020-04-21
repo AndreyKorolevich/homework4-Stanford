@@ -10,10 +10,10 @@ class PlayButton {
     const srcPlay = 'file:///D:/IT/Stedfort/hw4-music-box-AndreyKorolevich/images/play.png'
     if (this.button.src === srcPause) {
       this.button.src = srcPlay;
-      document.dispatchEvent(new CustomEvent('audio-play'));
-    } else if (this.button.src === srcPlay) {
-      this.button.src = srcPause;
       document.dispatchEvent(new CustomEvent('audio-pause'));
+    } else if (this.button.src === srcPlay) {
+      this.button.src = srcPause; 
+      document.dispatchEvent(new CustomEvent('audio-play'));
     }
   }
 }

@@ -27,7 +27,7 @@ class MusicScreen {
   }
 
   showNewGif() {
-    this.gifDisplay.renderGif();
+    this.gifDisplay.renderNewGif();
   }
 
   audioPlay() {
