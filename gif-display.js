@@ -1,6 +1,7 @@
 class GifDisplay {
   constructor() {
     this.onJsonReady = this.onJsonReady.bind(this);
+ 
     this.arrUrls = [];
     this.topic;
   }
@@ -10,8 +11,7 @@ class GifDisplay {
     this.query = encodeURIComponent(this.topic);
     this.gifPath = `https://api.giphy.com/v1/gifs/search?api_key=yCb3a2vGu9hxzySF74WnYQ9PgHS1ufbV&q=${this.query}&limit=25&offset=0&rating=G&lang=en`;
 
-    this.arrUrls = [];
-    fetch(this.gifPath)
+   return fetch(this.gifPath)
       .then(this.onResponse)
       .then(this.onJsonReady);
   }
@@ -21,14 +21,14 @@ class GifDisplay {
   }
 
   onJsonReady(json) {
-    if (!json.data) {
+     if (!json.data) {
       return;
-    }
-    for (let i = 0; i < json.data.length; i++) {
-      const url = json.data[i].images.original.url;
-      this.arrUrls.push(url);
-    }
-    this.renderGif();
+     }
+      for (let i = 0; i < json.data.length; i++) {
+        const url = json.data[i].images.original.url;
+        this.arrUrls.push(url);
+      }
+      this.renderGif();
   }
 
   renderGif() {
@@ -44,7 +44,7 @@ class GifDisplay {
     gifContainerSecond.style.backgroundImage = `url(${this.arrUrls[randomGifSecond]})`;
   }
 
-  renderNewGif() {
+  bufferGif() {
     const container = document.getElementsByClassName('gif');
     const gifShowed = document.querySelector('#audio-player .show');
     const randomGif = Math.floor(Math.random() * 25);

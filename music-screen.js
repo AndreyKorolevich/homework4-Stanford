@@ -1,6 +1,6 @@
 class MusicScreen {
   constructor() {
-    this.gifDisplay = new GifDisplay (); 
+    this.gifDisplay = new GifDisplay();
     this.playButton = new PlayButton();
     this.audioPlayer;
     this.containerElement = document.getElementById('audio-player');
@@ -8,16 +8,30 @@ class MusicScreen {
     this.showNewGif = this.showNewGif.bind(this);
     this.audioPlay = this.audioPlay.bind(this);
     this.audioPause = this.audioPause.bind(this);
+    
     document.addEventListener('show-new-gif', this.showNewGif);
     document.addEventListener('audio-pause', this.audioPause);
     document.addEventListener('audio-play', this.audioPlay);
   }
-   
-  show(gifAndSong) {
+
+  async show(gifAndSong) {
+    try{
+    await this.gifDisplay.viewGif(gifAndSong.gif);
+    if (this.gifDisplay.arrUrls.length < 3) {
+      throw new Error('Not enough gifs for this theme. Please try another')
+    }
+    document.getElementById('menu').classList.add('inactive');
+    this.startPlayer(gifAndSong.song);
+    } catch(error) {
+      console.error(error);
+      document.getElementById('error').classList.remove('inactive');
+    }
+  }
+
+  startPlayer(song) {
     this.audioPlayer = new AudioPlayer();
     this.containerElement.classList.remove('inactive');
-    this.gifDisplay.viewGif(gifAndSong.gif);
-    this.audioPlayer.setSong(gifAndSong.song);
+    this.audioPlayer.setSong(song);
     this.audioPlayer.play();
     this.audioPlayer.setKickCallback(this.kick);
   }
@@ -27,7 +41,7 @@ class MusicScreen {
   }
 
   showNewGif() {
-    this.gifDisplay.renderNewGif();
+    this.gifDisplay.bufferGif();
   }
 
   audioPlay() {
