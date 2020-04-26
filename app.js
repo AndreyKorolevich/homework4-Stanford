@@ -9,7 +9,6 @@ class App {
 
     this.showMusicScreen = this.showMusicScreen.bind(this);
     document.addEventListener('open-music-screen', this.showMusicScreen);
-    this.a;
   }
 
     showMusicScreen(event) {

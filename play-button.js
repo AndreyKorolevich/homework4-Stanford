@@ -6,13 +6,13 @@ class PlayButton {
   }
 
   playStop() {
-    const srcPause = 'file:///D:/IT/Stedfort/hw4-music-box-AndreyKorolevich/images/pause.png'
-    const srcPlay = 'file:///D:/IT/Stedfort/hw4-music-box-AndreyKorolevich/images/play.png'
-    if (this.button.src === srcPause) {
-      this.button.src = srcPlay;
+    if (this.button.classList[1] === 'pause') {
+      this.button.classList.remove('pause');
+      this.button.classList.add('play');
       document.dispatchEvent(new CustomEvent('audio-pause'));
-    } else if (this.button.src === srcPlay) {
-      this.button.src = srcPause; 
+    } else if (this.button.classList[1] === 'play') {
+      this.button.classList.remove('play');
+      this.button.classList.add('pause');
       document.dispatchEvent(new CustomEvent('audio-play'));
     }
   }
