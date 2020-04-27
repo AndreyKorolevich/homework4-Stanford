@@ -8,23 +8,22 @@ class MusicScreen {
     this.showNewGif = this.showNewGif.bind(this);
     this.audioPlay = this.audioPlay.bind(this);
     this.audioPause = this.audioPause.bind(this);
-    
+
     document.addEventListener('show-new-gif', this.showNewGif);
     document.addEventListener('audio-pause', this.audioPause);
     document.addEventListener('audio-play', this.audioPlay);
   }
 
   async show(gifAndSong) {
-    try{
-    await this.gifDisplay.viewGif(gifAndSong.gif);
-    if (this.gifDisplay.arrUrls.length < 3) {
-      throw new Error('Not enough gifs for this theme. Please try another')
-    }
-     this.gifDisplay.loadGIF();
-    console.log(this.gifDisplay.arrGIF);
-    document.getElementById('menu').classList.add('inactive');
-    this.startPlayer(gifAndSong.song);
-    } catch(error) {
+    try {
+      await this.gifDisplay.viewGif(gifAndSong.gif);
+      if (this.gifDisplay.arrUrls.length < 3) {
+        throw new Error('Not enough gifs for this theme. Please try another')
+      }
+      this.gifDisplay.loadGIF();
+      document.getElementById('menu').classList.add('inactive');
+      this.startPlayer(gifAndSong.song);
+    } catch (error) {
       console.error(error);
       document.getElementById('error').classList.remove('inactive');
     }
