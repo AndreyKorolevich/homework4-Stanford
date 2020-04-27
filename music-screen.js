@@ -20,6 +20,8 @@ class MusicScreen {
     if (this.gifDisplay.arrUrls.length < 3) {
       throw new Error('Not enough gifs for this theme. Please try another')
     }
+     this.gifDisplay.loadGIF();
+    console.log(this.gifDisplay.arrGIF);
     document.getElementById('menu').classList.add('inactive');
     this.startPlayer(gifAndSong.song);
     } catch(error) {
@@ -41,6 +43,7 @@ class MusicScreen {
   }
 
   showNewGif() {
+    console.log(this.gifDisplay.arrGIF.length);
     this.gifDisplay.bufferGif();
   }
 

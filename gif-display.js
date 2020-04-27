@@ -1,9 +1,11 @@
 class GifDisplay {
   constructor() {
     this.onJsonReady = this.onJsonReady.bind(this);
- 
+    this.loadGIF =  this.loadGIF.bind(this);
     this.arrUrls = [];
+    this.arrGIF = [];
     this.topic;
+    this.i = 0;
   }
 
   viewGif(topic) {
@@ -28,11 +30,12 @@ class GifDisplay {
         const url = json.data[i].images.original.url;
         this.arrUrls.push(url);
       }
+      
       this.renderGif();
   }
 
   renderGif() {
-    const randomGifFirst = Math.floor(Math.random() * 25);
+    const randomGifFirst = Math.floor(Math.random() * this.arrUrls.length);
     let randomGifSecond = randomGifFirst + 1;
     if (randomGifSecond >= this.arrUrls.length) {
       randomGifSecond = randomGifFirst - 1;
@@ -47,7 +50,7 @@ class GifDisplay {
   bufferGif() {
     const container = document.getElementsByClassName('gif');
     const gifShowed = document.querySelector('#audio-player .show');
-    const randomGif = Math.floor(Math.random() * 25);
+    const randomGif = Math.floor(Math.random() * this.arrUrls.length);
     for (const gif of container) {
       if (!gif.classList.contains('show')) {
         gif.classList.add('show');
@@ -56,4 +59,16 @@ class GifDisplay {
     gifShowed.classList.remove('show');
     gifShowed.style.backgroundImage = `url(${this.arrUrls[randomGif]})`;
   }
+
+  loadGIF() {  
+    if(this.i > 24) {
+      return 
+    }
+      let gif = new Image(); 
+      gif.src = this.arrUrls[this.i];
+      this.arrGIF.push(gif);
+      this.i++;
+      gif.addEventListener("load",this.loadGIF(), false);    
+  }
+ 
 }
